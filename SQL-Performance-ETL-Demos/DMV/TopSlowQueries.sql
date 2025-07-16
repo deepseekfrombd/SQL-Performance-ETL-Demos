@@ -6,68 +6,61 @@ SET STATISTICS TIME ON;
 SELECT * FROM Loan WHERE TransDate = '2023-07-16';
 
 --Use DMVs to Find Top Problem Queries
+DMVs (Dynamic Management Views) are system views provided by SQL Server that return real-time insights about the health, performance, activity, and resource usage of your SQL Server instance.
   
 
-
-
 -- Top 5 slowest queries (by average time)
-SELECT TOP 5 
-    qs.total_elapsed_time / qs.execution_count AS AvgElapsedTime,
-    qt.text AS QueryText
-FROM sys.dm_exec_query_stats qs
-CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle) qt
-ORDER BY AvgElapsedTime DESC;
+    SELECT TOP 5 
+        qs.total_elapsed_time / qs.execution_count AS AvgElapsedTime,
+        qt.text AS QueryText
+    FROM sys.dm_exec_query_stats qs
+    CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle) qt
+    ORDER BY AvgElapsedTime DESC;
 
 
 -- Use Proper Indexing
-CREATE NONCLUSTERED INDEX idx_TransDate
-ON Loan(TransDate)
-INCLUDE (LoanID, Amount);
+    CREATE NONCLUSTERED INDEX idx_TransDate
+    ON Loan(TransDate)
+    INCLUDE (LoanID, Amount);
 
 
---Avoid SELECT *
-
-SELECT * FROM Loan WHERE TransDate = '2023-01-01';
-Good:
+--Avoid SELECT * (All) Selection
+    SELECT * FROM Loan WHERE TransDate = '2023-01-01';
 
 
-SELECT LoanID, Amount FROM Loan WHERE TransDate = '2023-01-01';
+    SELECT LoanID, Amount FROM Loan WHERE TransDate = '2023-01-01';
+
 ✅ Use SARGable Conditions
+      WHERE YEAR(TransDate) = 2023
+      WHERE TransDate BETWEEN '2023-01-01' AND '2023-12-31'
 
-
-WHERE YEAR(TransDate) = 2023
-Good:
-
-
-WHERE TransDate BETWEEN '2023-01-01' AND '2023-12-31'
 ✅ Keep Statistics Updated
+      Statistics in SQL Server are metadata that describe the distribution of data in a column or index (e.g., how many rows contain a value, how unique it is, value ranges, etc.).
+      UPDATE STATISTICS Loan;
 
--- Update stats for a table
-UPDATE STATISTICS Loan;
 ✅ Rebuild or Reorganize Indexes
-
--- Rebuild
-ALTER INDEX ALL ON Loan REBUILD;
+    -- Rebuild
+    ALTER INDEX ALL ON Loan REBUILD;
 
 -- Or Reorganize
-ALTER INDEX ALL ON Loan REORGANIZE;
-✅ Use WITH (NOLOCK) for Reports (Optional)
+  ALTER INDEX ALL ON Loan REORGANIZE;
 
-SELECT LoanID, Amount
-FROM Loan WITH (NOLOCK)
-WHERE TransDate BETWEEN '2023-01-01' AND '2023-12-31';
-⚠️ Warning: You may get dirty data. Use only for read-only reports.
+✅ Use WITH (NOLOCK) for Reports (Optional)
+    SELECT LoanID, Amount
+    FROM Loan WITH (NOLOCK)
+    WHERE TransDate BETWEEN '2023-01-01' AND '2023-12-31';
+    ⚠️ Warning: You may get dirty data. Use only for read-only reports.
 
 
 🎯 Microsoft Official SQL Server Performance Tuning Resources
-✅ 1. Monitor and Tune for Performance (Main Guide)
-এটি Microsoft-এর অফিসিয়াল গাইড যেখানে execution plans, query tuning, indexing, DMVs, এবং performance monitoring tools (like Query Store, Extended Events, Perfmon) সবকিছু বিস্তারিতভাবে আছে।
+    ✅ 1. Monitor and Tune for Performance (Main Guide)
+    এটি Microsoft-এর অফিসিয়াল গাইড যেখানে execution plans, query tuning, indexing, DMVs, এবং performance monitoring tools (like Query Store, Extended Events, Perfmon) সবকিছু বিস্তারিতভাবে আছে।
 
 🔗 Link:
 👉 https://learn.microsoft.com/en-us/sql/relational-databases/performance/monitor-and-tune-for-performance
 
 ✅ 2. Query Performance Tuning (Best Practices)
-এটি Query Optimizer, Statistics, Indexing, SARGability এবং Execution Plan বিশ্লেষণের উপর ভিত্তি করে গভীরতর টিউটোরিয়াল।
+    এটি Query Optimizer, Statistics, Indexing, SARGability এবং Execution Plan বিশ্লেষণের উপর ভিত্তি করে গভীরতর টিউটোরিয়াল।
 
 🔗 Link:
 👉 https://learn.microsoft.com/en-us/sql/relational-databases/performance/performance-tuning-sql-server
@@ -91,16 +84,16 @@ sys.dm_exec_query_stats, sys.dm_db_index_usage_stats এর মতো DMVs ব�
 👉 https://learn.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/performance-dynamic-management-views
 
 ✅ 6. Tune Nonclustered Indexes
-কিভাবে effective non-clustered indexes তৈরি করবেন, INCLUDE columns ও filtered index কিভাবে কাজ করে, সব কিছু বুঝানো হয়েছে।
+    কিভাবে effective non-clustered indexes তৈরি করবেন, INCLUDE columns ও filtered index কিভাবে কাজ করে, সব কিছু বুঝানো হয়েছে।
 
 🔗 Link:
 👉 https://learn.microsoft.com/en-us/sql/relational-databases/indexes/nonclustered-indexes
 
 ✅ 7. Statistics in SQL Server (Important for Query Plans)
-SQL Server optimizer কিভাবে statistics ব্যবহার করে—এবং outdated stats এর কারণে কী সমস্যা হয়, তা বিশ্লেষণ করে।
+    SQL Server optimizer কিভাবে statistics ব্যবহার করে—এবং outdated stats এর কারণে কী সমস্যা হয়, তা বিশ্লেষণ করে।
 
 🔗 Link:
-👉 https://learn.microsoft.com/en-us/sql/relational-databases/statistics/statistics
+  👉 https://learn.microsoft.com/en-us/sql/relational-databases/statistics/statistics
 
 🧠 Bonus – Microsoft Learn Full Module:
 📘 [Performance tuning and monitoring in Azure SQL and SQL Server – Learn Path]
