@@ -1,6 +1,6 @@
-Use SET STATISTICS
-SET STATISTICS IO ON;
-SET STATISTICS TIME ON;
+  Use SET STATISTICS
+  SET STATISTICS IO ON;
+  SET STATISTICS TIME ON;
 
 -- Your Query here
 SELECT * FROM Loan WHERE TransDate = '2023-07-16';
@@ -35,7 +35,7 @@ DMVs (Dynamic Management Views) are system views provided by SQL Server that ret
       WHERE TransDate BETWEEN '2023-01-01' AND '2023-12-31'
 
 ✅ Keep Statistics Updated
-      Statistics in SQL Server are metadata that describe the distribution of data in a column or index (e.g., how many rows contain a value, how unique it is, value ranges, etc.).
+      Statistics in SQL Server are metadata that describe the distribution of data in a column or index (e.g., how many rows contain a         value, how unique it is, value ranges, etc.).
       UPDATE STATISTICS Loan;
 
 ✅ Rebuild or Reorganize Indexes
@@ -54,19 +54,19 @@ DMVs (Dynamic Management Views) are system views provided by SQL Server that ret
 
 🎯 Microsoft Official SQL Server Performance Tuning Resources
     ✅ 1. Monitor and Tune for Performance (Main Guide)
-    এটি Microsoft-এর অফিসিয়াল গাইড যেখানে execution plans, query tuning, indexing, DMVs, এবং performance monitoring tools (like Query Store, Extended Events, Perfmon) সবকিছু বিস্তারিতভাবে আছে।
+    এটি Microsoft-এর অফিসিয়াল গাইড যেখানে execution plans, query tuning, indexing, DMVs, এবং performance monitoring tools (like Query       Store, Extended Events, Perfmon) সবকিছু বিস্তারিতভাবে আছে।
 
 🔗 Link:
-👉 https://learn.microsoft.com/en-us/sql/relational-databases/performance/monitor-and-tune-for-performance
+  👉 https://learn.microsoft.com/en-us/sql/relational-databases/performance/monitor-and-tune-for-performance
 
 ✅ 2. Query Performance Tuning (Best Practices)
     এটি Query Optimizer, Statistics, Indexing, SARGability এবং Execution Plan বিশ্লেষণের উপর ভিত্তি করে গভীরতর টিউটোরিয়াল।
 
 🔗 Link:
-👉 https://learn.microsoft.com/en-us/sql/relational-databases/performance/performance-tuning-sql-server
+  👉 https://learn.microsoft.com/en-us/sql/relational-databases/performance/performance-tuning-sql-server
 
 ✅ 3. Use the Query Store to Improve Performance
-Query Store ব্যবহার করে কীভাবে performance degrade খুঁজে বের করবেন এবং regressions rollback করবেন তা শেখায়।
+  Query Store ব্যবহার করে কীভাবে performance degrade খুঁজে বের করবেন এবং regressions rollback করবেন তা শেখায়।
 
 🔗 Link:
 👉 https://learn.microsoft.com/en-us/sql/relational-databases/performance/monitoring-performance-by-using-the-query-store
@@ -87,7 +87,7 @@ sys.dm_exec_query_stats, sys.dm_db_index_usage_stats এর মতো DMVs ব�
     কিভাবে effective non-clustered indexes তৈরি করবেন, INCLUDE columns ও filtered index কিভাবে কাজ করে, সব কিছু বুঝানো হয়েছে।
 
 🔗 Link:
-👉 https://learn.microsoft.com/en-us/sql/relational-databases/indexes/nonclustered-indexes
+  👉 https://learn.microsoft.com/en-us/sql/relational-databases/indexes/nonclustered-indexes
 
 ✅ 7. Statistics in SQL Server (Important for Query Plans)
     SQL Server optimizer কিভাবে statistics ব্যবহার করে—এবং outdated stats এর কারণে কী সমস্যা হয়, তা বিশ্লেষণ করে।
