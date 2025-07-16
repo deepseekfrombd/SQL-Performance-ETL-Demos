@@ -65,3 +65,8 @@ SELECT TOP (1000) [id]
       ,[entryTime]
       ,[lastModifiedTime]
  FROM [Practice].[dbo].[AccountTransaction] Where TransDate BETWEEN '2024-01-01' AND '2024-12-31';
+
+Go to optimize Query : 
+https://github.com/deepseekfrombd/SQL-Performance-ETL-Demos/blob/main/SQL-Performance-ETL-Demos/Performance_Tests/OptimizedQuery.sql
+
+
