@@ -43,3 +43,14 @@ WHERE mid.database_id = DB_ID()  -- current database only
 ORDER BY EstimatedImpactScore DESC;
 GO
 
+
+
+📈 Output Columns Explained:
+Column	                                Description
+ReportGeneratedOn	                    Date/time the report was run
+TimesIndexNeeded	                    How many times this index would've helped
+AvgQueryCostSaved	                    Average CPU/IO saved per use
+EstimatedImprovementPercent	            Estimated % improvement
+EstimatedImpactScore	                Combines frequency + cost saving
+TableName	                            The affected table
+SuggestedIndexScript	                Ready-to-use CREATE INDEX command
