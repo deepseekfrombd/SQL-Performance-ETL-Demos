@@ -1,4 +1,4 @@
-USE [IMFAS-ERP]
+USE [ST-RMS]
 GO
 /****** Object:  User [alamgir]    Script Date: 16-Jul-25 8:23:54 AM ******/
 CREATE USER [alamgir] WITHOUT LOGIN WITH DEFAULT_SCHEMA=[dbo]
