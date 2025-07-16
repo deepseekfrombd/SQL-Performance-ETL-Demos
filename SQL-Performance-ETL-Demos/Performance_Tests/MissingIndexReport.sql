@@ -45,12 +45,45 @@ GO
 
 
 
-📈 Output Columns Explained:
-Column	                                Description
-ReportGeneratedOn	                    Date/time the report was run
-TimesIndexNeeded	                    How many times this index would've helped
-AvgQueryCostSaved	                    Average CPU/IO saved per use
-EstimatedImprovementPercent	            Estimated % improvement
-EstimatedImpactScore	                Combines frequency + cost saving
-TableName	                            The affected table
-SuggestedIndexScript	                Ready-to-use CREATE INDEX command
+# 📊 Missing Indexes Report – SQL Server DMV
+
+## 🎯 Purpose
+This script helps detect **missing indexes** using **SQL Server's dynamic management views (DMVs)**. These recommendations are based on real query execution stats and estimated performance gains.
+
+---
+
+## 📁 File: `MissingIndexesReport.sql`
+
+This script identifies and generates **`CREATE INDEX` suggestions** for missing indexes to help improve query speed and reduce resource consumption.
+
+---
+
+## 📌 Output Columns
+
+| Column                    | Description                                       |
+|---------------------------|---------------------------------------------------|
+| `ReportGeneratedOn`       | Date/time the report was run                      |
+| `TimesIndexNeeded`        | How many times this index would've helped         |
+| `AvgQueryCostSaved`       | Average CPU/IO saved per use                      |
+| `EstimatedImprovementPercent` | Estimated % performance gain                  |
+| `EstimatedImpactScore`    | Combines usage frequency + cost savings           |
+| `TableName`               | The table where index is recommended              |
+| `SuggestedIndexScript`    | Ready-to-use `CREATE INDEX` script                |
+
+---
+
+## 🧠 Example Output
+
+| TableName     | EstimatedImpactScore | SuggestedIndexScript |
+|---------------|----------------------|-----------------------|
+| LoanAccount   | 10830.00             | `CREATE NONCLUSTERED INDEX [IX_LoanAccount_DisburseDate_BranchID] ...` |
+
+---
+
+## ✅ Best Practices
+
+- **Don't create all indexes blindly** — review query plans and index usage first.
+- Prioritize indexes with **high impact scores** and **frequent use**.
+- Monitor index usage via:
+  ```sql
+  SELECT * FROM sys.dm_db_index_usage_stats WHERE object_id = OBJECT_ID('dbo.YourTable');
