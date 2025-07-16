@@ -1,4 +1,4 @@
-SQL Performance Tuning & ETL Automation Demos
+# SQL Performance Tuning – Real-World Case Study by Alamgir Kabir
 
 Welcome to my SQL performance tuning and ETL job demo repository. This repo showcases real-world SQL Server optimization techniques and ETL workflows that I’ve used in large-scale FinTech and microfinance systems across Bangladesh.
 
