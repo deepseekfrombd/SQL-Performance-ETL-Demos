@@ -1,1 +1,0 @@
-CSV_to_SQL_ETL.ps1 (PowerShell for automation)
