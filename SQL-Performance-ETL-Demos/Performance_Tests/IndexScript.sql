@@ -1,49 +1,21 @@
---SQL Server Indexing Scripts – All Types
+-- Create Clustered Index
+CREATE CLUSTERED INDEX idx_LoanAccount_CustomerId ON dbo.LoanAccount (CustomerId);
 
-*** 1. Create Clustered Index
-** Clustered index determines physical order of data in a table (1 per table).
-      CREATE CLUSTERED INDEX idx_LoanAccount_CustomerId
-      ON dbo.LoanAccount (CustomerId);
-🔎 Use when:
-  ## Your query mostly filters or sorts on this column
-  ## The column is unique or nearly unique
+-- Create Non-Clustered Index with INCLUDE
+CREATE NONCLUSTERED INDEX idx_DisburseDate_Include
+ON dbo.LoanAccount (DisburseDate)
+INCLUDE (Branch_ID, DisburseAmount);
 
-*** 2. Create Non-Clustered Index
-** Non-clustered indexes are separate from table data and reference the row location.
-      CREATE NONCLUSTERED INDEX idx_LoanAccount_DisburseDate
-      ON dbo.LoanAccount (DisburseDate);
-🔎 Use when:
-  ## Frequently queried by a column that's not part of primary key
-  ## Want multiple indexes for different use cases
+-- Create Filtered Index
+CREATE NONCLUSTERED INDEX idx_ActiveLoans
+ON dbo.LoanAccount (Branch_ID)
+WHERE AccountStatus = 'Active';
 
-  3. Non-Clustered Index with INCLUDE Columns
-  **Speeds up SELECT without needing full table or key lookups.
-        CREATE NONCLUSTERED INDEX idx_LoanAccount_DisburseDate_Include
-        ON dbo.LoanAccount (DisburseDate)
-        INCLUDE (Branch_ID, AccountNo, DisburseAmount);
-🔎 Use when:
-    ## You want covering indexes for specific queries
-    ## Reduce I/O and lookups
-  
+-- Rebuild All Indexes
+ALTER INDEX ALL ON dbo.LoanAccount REBUILD;
 
---Drop Index
-    DROP INDEX idx_LoanAccount_DisburseDate
-    ON dbo.LoanAccount;
-
-  --Tip: Use this DMV to check unused indexes:
-    SELECT *
-    FROM sys.dm_db_index_usage_stats
-    WHERE object_id = OBJECT_ID('dbo.LoanAccount');
-
-
-  --Rebuild & Reorganize Index
-    ALTER INDEX ALL ON dbo.LoanAccount REBUILD;
-
---Check Index Fragmentation
-    SELECT 
-        index_id, avg_fragmentation_in_percent, page_count
-    FROM sys.dm_db_index_physical_stats(DB_ID(), OBJECT_ID('dbo.LoanAccount'), NULL, NULL, 'LIMITED')
-    WHERE index_id > 0;
+-- Drop Unused Index (if needed)
+DROP INDEX idx_OldIndex ON dbo.LoanAccount;
 
 
   --Auto Script to Suggest Missing Index
