@@ -1,1 +1,0 @@
-Query_After_Tuning.sql
