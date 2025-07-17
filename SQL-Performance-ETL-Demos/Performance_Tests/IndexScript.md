@@ -20,27 +20,19 @@ CREATE NONCLUSTERED INDEX idx_DisburseDate_Include
 ON dbo.LoanAccount (DisburseDate)
 INCLUDE (Branch_ID, DisburseAmount);
 Filtered Index for Active Accounts
-sql
-Copy
-Edit
+
 CREATE NONCLUSTERED INDEX idx_ActiveLoans
 ON dbo.LoanAccount (Branch_ID)
 WHERE AccountStatus = 'Active';
 Index Maintenance
 Rebuild All Indexes on LoanAccount
-sql
-Copy
-Edit
+
 ALTER INDEX ALL ON dbo.LoanAccount REBUILD;
 Drop an Old or Unused Index (Use with caution)
-sql
-Copy
-Edit
+
 DROP INDEX idx_OldIndex ON dbo.LoanAccount;
 Missing Indexes Detection
-sql
-Copy
-Edit
+
 SELECT
     migs.user_seeks,
     mid.statement,
@@ -53,15 +45,11 @@ JOIN sys.dm_db_missing_index_group_stats AS migs
 ORDER BY migs.user_seeks DESC;
 Query Performance Analysis
 Enable IO and Time Statistics
-sql
-Copy
-Edit
+
 SET STATISTICS IO ON;
 SET STATISTICS TIME ON;
 Sample Query for Performance Testing
-sql
-Copy
-Edit
+
 SELECT  
     [id], [AccountNo], [LoanProposalNo], [DisburseDate], [DisburseAmount],
     [CustSecurityFund], [InstServChrg], [InstCapDevLavy], [InstPrincipalAmt],
@@ -83,6 +71,7 @@ SELECT
     [GurGender]
 FROM [Practice].[dbo].[LoanAccount]
 WHERE DisburseDate BETWEEN '2022-01-01' AND '2022-12-31';
+
 Author
 Alamgir Kabir
 📧 alamgirfrombd@gmail.com
@@ -91,8 +80,5 @@ Alamgir Kabir
 License
 MIT License
 
-bash
-Copy
-Edit
 
 If you want, I can also help you generate a downloadable `README.md` file for you. Just let me know!
