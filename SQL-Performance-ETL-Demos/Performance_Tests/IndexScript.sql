@@ -1,8 +1,4 @@
--- 📌 Step 1: Create Useful Indexes for Performance Optimization
 
--- 1.1 Create Clustered Index on CustomerId (if table has no clustered index)
-CREATE CLUSTERED INDEX idx_LoanAccount_CustomerId 
-ON dbo.LoanAccount (CustomerId);
 
 -- 1.2 Create Non-Clustered Index on DisburseDate with included columns
 CREATE NONCLUSTERED INDEX idx_DisburseDate_Include
