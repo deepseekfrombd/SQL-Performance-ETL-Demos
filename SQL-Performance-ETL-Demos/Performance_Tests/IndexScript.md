@@ -72,13 +72,7 @@ SELECT
 FROM [Practice].[dbo].[LoanAccount]
 WHERE DisburseDate BETWEEN '2022-01-01' AND '2022-12-31';
 
-Author
-Alamgir Kabir
+##Author
+###Alamgir Kabir
 📧 alamgirfrombd@gmail.com
 📍 Dhaka, Bangladesh
-
-License
-MIT License
-
-
-If you want, I can also help you generate a downloadable `README.md` file for you. Just let me know!
